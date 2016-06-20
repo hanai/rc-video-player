@@ -1,0 +1,129 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+.player-box {
+  position: relative;
+
+  .control-bar {
+    background: #1B1B1B;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 28px;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    line-height: 28px;
+
+    .play-btn {
+      width: 50px;
+      text-align: center;
+      vertical-align: middle;
+      color: #757575;
+      cursor: pointer;
+
+      &:hover {
+        .play-icon, .pause-icon {
+          fill: #fff;
+        }
+      }
+
+      .play-icon, .pause-icon {
+        fill: darken(#fff, 20%);
+      }
+    }
+
+    .progress-bar-container {
+      flex: 1;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    .progress-bar {
+      position: relative;
+      width: 100%;
+
+      &:hover {
+        .pointer {
+          display: block;
+        }
+      }
+
+      .pointer {
+        content: '';
+        width: 10px;
+        height: 10px;
+        overflow: hidden;
+        background: #D71816;
+        position: absolute;
+        top: 50%;
+        margin-top: -5px;
+        margin-left: -5px;
+        z-index: 5;
+        border-radius: 50%;
+        left: 0;
+        display: none;
+        cursor: pointer;
+      }
+
+      .progress-list {
+        flex: 1;
+        height: 3px;
+        background: #666;
+        position: relative;
+        cursor: pointer;
+        transition: transform .1s cubic-bezier(0.0, 0.0, 0.2, 1);
+
+        &:hover {
+          background: #999;
+          transform: scaleY(1.5);
+        }
+      }
+
+      .play {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        background: #D71816;
+      }
+
+      .buffer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        z-index: 4;
+      }
+
+      .hover {
+        background: rgba(0, 0, 0, .5);
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 0;
+      }
+    }
+
+    .time-label {
+      font-size: 12px;
+      color: #ddd;
+      padding: 0 8px;
+      white-space: nowrap;
+
+      .current {
+        color: #fff;
+      }
+
+      .duration {
+      }
+    }
+  }
+}
