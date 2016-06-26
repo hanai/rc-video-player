@@ -20915,92 +20915,125 @@
 
 	'use strict';
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ProgressBar = _react2.default.createClass({
-	  displayName: 'ProgressBar',
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  propTypes: {
-	    currentTime: _react2.default.PropTypes.number.isRequired,
-	    duration: _react2.default.PropTypes.number.isRequired,
-	    buffered: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number).isRequired
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ProgressBar = function (_React$Component) {
+	  _inherits(ProgressBar, _React$Component);
+	
+	  function ProgressBar(props) {
+	    _classCallCheck(this, ProgressBar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProgressBar).call(this, props));
+	
+	    _this.state = {
 	      displayHoverBar: false,
 	      hoverBarLength: 0,
 	      pointerLeft: 0,
 	      playPercent: 0
 	    };
-	  },
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-	    var currentTime = nextProps.currentTime;
-	    var duration = nextProps.duration;
 	
-	    var progressLength = this.refs.progressList.clientWidth;
-	    this.setState({
-	      playPercent: duration ? currentTime / duration * 100 + '%' : 0,
-	      pointLeft: (duration ? currentTime / duration * progressLength : 0) + 'px'
-	    });
-	  },
-	  _handleMouseEnterProgressBar: function _handleMouseEnterProgressBar() {
-	    this.setState({
-	      displayHoverBar: true
-	    });
-	  },
-	  _handleMouseLeaveProgressbar: function _handleMouseLeaveProgressbar(event) {
-	    var posX = event.pageX;
-	    var posY = event.pageY;
-	    this.setState({
-	      displayHoverBar: false
-	    });
-	  },
-	  _handleMouseMoveProgressBar: function _handleMouseMoveProgressBar(event) {
-	    var eX = event.clientX;
-	    var barBounding = this.refs.progressList.getBoundingClientRect();
-	    var barX = barBounding.left;
-	    var offset = eX - barX;
-	    this.setState({
-	      hoverBarLength: offset
-	    });
-	  },
-	  render: function render() {
-	    var _props = this.props;
-	    var currentTime = _props.currentTime;
-	    var duration = _props.duration;
-	    var _state = this.state;
-	    var playPercent = _state.playPercent;
-	    var pointLeft = _state.pointLeft;
-	    var displayHoverBar = _state.displayHoverBar;
-	    var hoverBarLength = _state.hoverBarLength;
+	    _this.handleMouseEnterProgressBar = _this.handleMouseEnterProgressBar.bind(_this);
+	    _this.handleMouseLeaveProgressbar = _this.handleMouseLeaveProgressbar.bind(_this);
+	    _this.handleMouseMoveProgressBar = _this.handleMouseMoveProgressBar.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(ProgressBar, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var currentTime = nextProps.currentTime;
+	      var duration = nextProps.duration;
+	
+	      var progressLength = this.refs.progressList.clientWidth;
+	      this.setState({
+	        playPercent: duration ? currentTime / duration * 100 + '%' : 0,
+	        pointLeft: (duration ? currentTime / duration * progressLength : 0) + 'px'
+	      });
+	    }
+	  }, {
+	    key: 'handleMouseEnterProgressBar',
+	    value: function handleMouseEnterProgressBar() {
+	      this.setState({
+	        displayHoverBar: true
+	      });
+	    }
+	  }, {
+	    key: 'handleMouseLeaveProgressbar',
+	    value: function handleMouseLeaveProgressbar(event) {
+	      var posX = event.pageX;
+	      var posY = event.pageY;
+	      this.setState({
+	        displayHoverBar: false
+	      });
+	    }
+	  }, {
+	    key: 'handleMouseMoveProgressBar',
+	    value: function handleMouseMoveProgressBar(event) {
+	      var eX = event.clientX;
+	      var barBounding = this.refs.progressList.getBoundingClientRect();
+	      var barX = barBounding.left;
+	      var offset = eX - barX;
+	      this.setState({
+	        hoverBarLength: offset
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var currentTime = _props.currentTime;
+	      var duration = _props.duration;
+	      var _state = this.state;
+	      var playPercent = _state.playPercent;
+	      var pointLeft = _state.pointLeft;
+	      var displayHoverBar = _state.displayHoverBar;
+	      var hoverBarLength = _state.hoverBarLength;
 	
 	
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'progress-bar-container' },
-	      _react2.default.createElement(
+	      return _react2.default.createElement(
 	        'div',
-	        { className: 'progress-bar' },
+	        { className: 'progress-bar-container' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'progress-list', ref: 'progressList',
-	            onMouseMove: this._handleMouseMoveProgressBar,
-	            onMouseEnter: this._handleMouseEnterProgressBar,
-	            onMouseLeave: this._handleMouseLeaveProgressbar },
-	          _react2.default.createElement('div', { className: 'play', style: { width: playPercent } }),
-	          _react2.default.createElement('div', { className: 'buffer' }),
-	          _react2.default.createElement('div', { className: 'hover',
-	            style: { opacity: displayHoverBar ? 1 : 0, width: hoverBarLength } })
-	        ),
-	        _react2.default.createElement('div', { className: 'pointer', style: { left: pointLeft } })
-	      )
-	    );
-	  }
-	});
+	          { className: 'progress-bar' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'progress-list', ref: 'progressList',
+	              onMouseMove: this.handleMouseMoveProgressBar,
+	              onMouseEnter: this.handleMouseEnterProgressBar,
+	              onMouseLeave: this.handleMouseLeaveProgressbar },
+	            _react2.default.createElement('div', { className: 'play', style: { width: playPercent } }),
+	            _react2.default.createElement('div', { className: 'buffer' }),
+	            _react2.default.createElement('div', { className: 'hover',
+	              style: { opacity: displayHoverBar ? 1 : 0, width: hoverBarLength } })
+	          ),
+	          _react2.default.createElement('div', { className: 'pointer', style: { left: pointLeft } })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ProgressBar;
+	}(_react2.default.Component);
+	
+	ProgressBar.propTypes = {
+	  currentTime: _react2.default.PropTypes.number.isRequired,
+	  duration: _react2.default.PropTypes.number.isRequired,
+	  buffered: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number).isRequired
+	};
+	
 	
 	module.exports = ProgressBar;
 
