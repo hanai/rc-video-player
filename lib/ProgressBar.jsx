@@ -6,11 +6,12 @@ class ProgressBar extends React.Component {
 
     this.state = {
       displayHoverBar: false,
-      hoverBarLength: 0,
       pointerLeft: 0,
-      playPercent: 0
+      playPercent: 0,
+      mouseOffsetLeft: 0
     };
 
+    this.handleClickProgressBar = ::this.handleClickProgressBar;
     this.handleMouseEnterProgressBar = ::this.handleMouseEnterProgressBar;
     this.handleMouseLeaveProgressbar = ::this.handleMouseLeaveProgressbar;
     this.handleMouseMoveProgressBar = ::this.handleMouseMoveProgressBar;
@@ -31,6 +32,17 @@ class ProgressBar extends React.Component {
     });
   }
 
+  handleClickProgressBar(event) {
+    const {duration} = this.props;
+
+    const offsetX = event.nativeEvent.offsetX;
+    const progressBar = event.currentTarget;
+
+    let time = (offsetX/progressBar.clientWidth) * duration;
+
+    this.props.onClickProgressBar(time);
+  }
+
   handleMouseEnterProgressBar() {
     this.setState({
       displayHoverBar: true
@@ -46,22 +58,22 @@ class ProgressBar extends React.Component {
   }
 
   handleMouseMoveProgressBar(event) {
-    let eX = event.clientX;
-    let barBounding = this.refs.progressList.getBoundingClientRect();
-    let barX = barBounding.left;
-    let offset = eX - barX;
+    const offsetX = event.nativeEvent.offsetX;
     this.setState({
-      hoverBarLength: offset
+      mouseOffsetLeft: offsetX
     });
   }
 
   render() {
     const {currentTime, duration} = this.props;
-    const {playPercent, pointLeft, displayHoverBar, hoverBarLength} = this.state;
+    const {playPercent, pointLeft, displayHoverBar, mouseOffsetLeft} = this.state;
 
     return (
       <div className="progress-bar-container">
-        <div className="progress-bar">
+        <div className="progress-bar"
+             ref="progressBar"
+             onClick={this.handleClickProgressBar}
+        >
           <div className="progress-list" ref="progressList"
                onMouseMove={this.handleMouseMoveProgressBar}
                onMouseEnter={this.handleMouseEnterProgressBar}
@@ -69,7 +81,7 @@ class ProgressBar extends React.Component {
             <div className="play" style={{width: playPercent}}></div>
             <div className="buffer"></div>
             <div className="hover"
-                 style={{opacity: displayHoverBar ? 1 : 0, width: hoverBarLength}}></div>
+                 style={{opacity: displayHoverBar ? 1 : 0, width: mouseOffsetLeft}}></div>
           </div>
           <div className="pointer" style={{left: pointLeft}}></div>
         </div>
@@ -78,4 +90,4 @@ class ProgressBar extends React.Component {
   }
 }
 
-module.exports = ProgressBar;
+export default ProgressBar;

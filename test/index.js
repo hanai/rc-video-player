@@ -20379,6 +20379,12 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -20391,108 +20397,167 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Player = _react2.default.createClass({
-	  displayName: 'Player',
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  propTypes: {
-	    autoplay: _react2.default.PropTypes.bool,
-	    poster: _react2.default.PropTypes.string,
-	    width: _react2.default.PropTypes.number,
-	    height: _react2.default.PropTypes.number
-	  },
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      autoplay: false,
-	      poster: '',
-	      width: 854,
-	      height: 480
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Player = function (_React$Component) {
+	  _inherits(Player, _React$Component);
+	
+	  function Player(props) {
+	    _classCallCheck(this, Player);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Player).call(this, props));
+	
+	    _this.state = {
 	      paused: true,
 	      currentTime: 0,
 	      loadedTime: 0,
 	      duration: 0,
 	      buffered: [0, 0]
 	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this._controller = this.refs.player.controller ? this.refs.player.controller : this.refs.player;
-	  },
-	  _play: function _play() {
-	    this._controller.play();
-	  },
-	  _pause: function _pause() {
-	    this._controller.pause();
-	  },
-	  _togglePlay: function _togglePlay() {
-	    if (this._controller.paused) {
-	      this._play();
-	    } else {
-	      this._pause();
+	
+	    _this.bindMethods();
+	    return _this;
+	  }
+	
+	  _createClass(Player, [{
+	    key: 'bindMethods',
+	    value: function bindMethods() {
+	      this.play = this.play.bind(this);
+	      this.pause = this.pause.bind(this);
+	      this.seek = this.seek.bind(this);
+	      this.togglePlay = this.togglePlay.bind(this);
+	
+	      this.handleVideoPlay = this.handleVideoPlay.bind(this);
+	      this.handleVideoPause = this.handleVideoPause.bind(this);
+	      this.handleVideoDurationChange = this.handleVideoDurationChange.bind(this);
+	      this.handleVideoTimeUpdate = this.handleVideoTimeUpdate.bind(this);
+	      this.handleVideoProgress = this.handleVideoProgress.bind(this);
 	    }
-	  },
-	  _handlePlay: function _handlePlay() {
-	    this.setState({
-	      paused: false
-	    });
-	  },
-	  _handlePause: function _handlePause() {
-	    this.setState({
-	      paused: true
-	    });
-	  },
-	  _handleDurationChange: function _handleDurationChange() {
-	    this.setState({
-	      duration: this._controller.duration
-	    });
-	  },
-	  _handleTimeUpdate: function _handleTimeUpdate() {
-	    this.setState({
-	      currentTime: this._controller.currentTime
-	    });
-	  },
-	  _handleProgress: function _handleProgress() {
-	    if (this._controller.readyState === 4) {
-	      var buffered = this._controller.buffered;
-	      console.log([buffered.start(0), buffered.end(0)]);
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this._controller = this.refs.player.controller ? this.refs.player.controller : this.refs.player;
+	    }
+	  }, {
+	    key: 'play',
+	    value: function play() {
+	      this._controller.play();
+	    }
+	  }, {
+	    key: 'pause',
+	    value: function pause() {
+	      this._controller.pause();
+	    }
+	  }, {
+	    key: 'seek',
+	    value: function seek(time) {
+	      this._controller.currentTime = time;
+	    }
+	  }, {
+	    key: 'togglePlay',
+	    value: function togglePlay() {
+	      if (this._controller.paused) {
+	        this.play();
+	      } else {
+	        this.pause();
+	      }
+	    }
+	
+	    /* S: handle video event */
+	
+	  }, {
+	    key: 'handleVideoPlay',
+	    value: function handleVideoPlay() {
 	      this.setState({
-	        buffered: [buffered.start(0), buffered.end(0)]
+	        paused: false
 	      });
 	    }
-	  },
-	  render: function render() {
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'player-box', style: { width: this.props.width, height: this.props.height } },
-	      _react2.default.createElement(
-	        'video',
-	        { ref: 'player',
-	          width: this.props.width,
-	          height: this.props.height,
-	          autoPlay: this.props.autoplay,
-	          poster: this.props.poster ? this.props.poster : null,
-	          controls: false,
-	          onClick: this._togglePlay,
-	          onPlay: this._handlePlay,
-	          onPause: this._handlePause,
-	          onProgress: this._handleProgress,
-	          onDurationChange: this._handleDurationChange,
-	          onTimeUpdate: this._handleTimeUpdate
-	        },
-	        this.props.children
-	      ),
-	      _react2.default.createElement(_ControlBar2.default, { paused: this.state.paused,
-	        onClickPlay: this._togglePlay,
-	        currentTime: this.state.currentTime,
-	        duration: this.state.duration,
-	        buffered: this.state.buffered })
-	    );
-	  }
-	});
+	  }, {
+	    key: 'handleVideoPause',
+	    value: function handleVideoPause() {
+	      this.setState({
+	        paused: true
+	      });
+	    }
+	  }, {
+	    key: 'handleVideoDurationChange',
+	    value: function handleVideoDurationChange() {
+	      this.setState({
+	        duration: this._controller.duration
+	      });
+	    }
+	  }, {
+	    key: 'handleVideoTimeUpdate',
+	    value: function handleVideoTimeUpdate() {
+	      this.setState({
+	        currentTime: this._controller.currentTime
+	      });
+	    }
+	  }, {
+	    key: 'handleVideoProgress',
+	    value: function handleVideoProgress() {
+	      if (this._controller.readyState === 4) {
+	        var buffered = this._controller.buffered;
+	        this.setState({
+	          buffered: [buffered.start(0), buffered.end(0)]
+	        });
+	      }
+	    }
+	    /* E: handle video event */
 	
-	module.exports = Player;
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'player-box', style: { width: this.props.width, height: this.props.height } },
+	        _react2.default.createElement(
+	          'video',
+	          { ref: 'player',
+	            width: this.props.width,
+	            height: this.props.height,
+	            autoPlay: this.props.autoplay,
+	            poster: this.props.poster ? this.props.poster : null,
+	            controls: false,
+	            onClick: this.togglePlay,
+	            onPlay: this.handleVideoPlay,
+	            onPause: this.handleVideoPause,
+	            onProgress: this.handleVideoProgress,
+	            onDurationChange: this.handleVideoDurationChange,
+	            onTimeUpdate: this.handleVideoTimeUpdate
+	          },
+	          this.props.children
+	        ),
+	        _react2.default.createElement(_ControlBar2.default, { paused: this.state.paused,
+	          onClickPlay: this.togglePlay,
+	          onClickProgressBar: this.seek,
+	          currentTime: this.state.currentTime,
+	          duration: this.state.duration,
+	          buffered: this.state.buffered })
+	      );
+	    }
+	  }]);
+	
+	  return Player;
+	}(_react2.default.Component);
+	
+	Player.propTypes = {
+	  autoplay: _react2.default.PropTypes.bool,
+	  poster: _react2.default.PropTypes.string,
+	  width: _react2.default.PropTypes.number,
+	  height: _react2.default.PropTypes.number
+	};
+	Player.defaultProps = {
+	  autoplay: false,
+	  poster: '',
+	  width: 854,
+	  height: 480
+	};
+	exports.default = Player;
 
 /***/ },
 /* 169 */
@@ -20887,6 +20952,7 @@
 	    var currentTime = _props.currentTime;
 	    var duration = _props.duration;
 	    var buffered = _props.buffered;
+	    var onClickProgressBar = _props.onClickProgressBar;
 	
 	
 	    return _react2.default.createElement(
@@ -20900,7 +20966,9 @@
 	      ),
 	      _react2.default.createElement(_ProgressBar2.default, { currentTime: currentTime,
 	        duration: duration,
-	        buffered: buffered }),
+	        buffered: buffered,
+	        onClickProgressBar: onClickProgressBar
+	      }),
 	      _react2.default.createElement(_TimeLabel2.default, { currentTime: currentTime,
 	        duration: duration })
 	    );
@@ -20914,6 +20982,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -20939,11 +21011,12 @@
 	
 	    _this.state = {
 	      displayHoverBar: false,
-	      hoverBarLength: 0,
 	      pointerLeft: 0,
-	      playPercent: 0
+	      playPercent: 0,
+	      mouseOffsetLeft: 0
 	    };
 	
+	    _this.handleClickProgressBar = _this.handleClickProgressBar.bind(_this);
 	    _this.handleMouseEnterProgressBar = _this.handleMouseEnterProgressBar.bind(_this);
 	    _this.handleMouseLeaveProgressbar = _this.handleMouseLeaveProgressbar.bind(_this);
 	    _this.handleMouseMoveProgressBar = _this.handleMouseMoveProgressBar.bind(_this);
@@ -20961,6 +21034,19 @@
 	        playPercent: duration ? currentTime / duration * 100 + '%' : 0,
 	        pointLeft: (duration ? currentTime / duration * progressLength : 0) + 'px'
 	      });
+	    }
+	  }, {
+	    key: 'handleClickProgressBar',
+	    value: function handleClickProgressBar(event) {
+	      var duration = this.props.duration;
+	
+	
+	      var offsetX = event.nativeEvent.offsetX;
+	      var progressBar = event.currentTarget;
+	
+	      var time = offsetX / progressBar.clientWidth * duration;
+	
+	      this.props.onClickProgressBar(time);
 	    }
 	  }, {
 	    key: 'handleMouseEnterProgressBar',
@@ -20981,12 +21067,9 @@
 	  }, {
 	    key: 'handleMouseMoveProgressBar',
 	    value: function handleMouseMoveProgressBar(event) {
-	      var eX = event.clientX;
-	      var barBounding = this.refs.progressList.getBoundingClientRect();
-	      var barX = barBounding.left;
-	      var offset = eX - barX;
+	      var offsetX = event.nativeEvent.offsetX;
 	      this.setState({
-	        hoverBarLength: offset
+	        mouseOffsetLeft: offsetX
 	      });
 	    }
 	  }, {
@@ -20999,7 +21082,7 @@
 	      var playPercent = _state.playPercent;
 	      var pointLeft = _state.pointLeft;
 	      var displayHoverBar = _state.displayHoverBar;
-	      var hoverBarLength = _state.hoverBarLength;
+	      var mouseOffsetLeft = _state.mouseOffsetLeft;
 	
 	
 	      return _react2.default.createElement(
@@ -21007,7 +21090,10 @@
 	        { className: 'progress-bar-container' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'progress-bar' },
+	          { className: 'progress-bar',
+	            ref: 'progressBar',
+	            onClick: this.handleClickProgressBar
+	          },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'progress-list', ref: 'progressList',
@@ -21017,7 +21103,7 @@
 	            _react2.default.createElement('div', { className: 'play', style: { width: playPercent } }),
 	            _react2.default.createElement('div', { className: 'buffer' }),
 	            _react2.default.createElement('div', { className: 'hover',
-	              style: { opacity: displayHoverBar ? 1 : 0, width: hoverBarLength } })
+	              style: { opacity: displayHoverBar ? 1 : 0, width: mouseOffsetLeft } })
 	          ),
 	          _react2.default.createElement('div', { className: 'pointer', style: { left: pointLeft } })
 	        )
@@ -21033,9 +21119,7 @@
 	  duration: _react2.default.PropTypes.number.isRequired,
 	  buffered: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number).isRequired
 	};
-	
-	
-	module.exports = ProgressBar;
+	exports.default = ProgressBar;
 
 /***/ },
 /* 175 */

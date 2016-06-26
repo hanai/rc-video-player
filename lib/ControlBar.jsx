@@ -16,7 +16,7 @@ const ControlBar = React.createClass({
     this.props.onClickPlay();
   },
   render() {
-    let {currentTime, duration, buffered} = this.props;
+    let {currentTime, duration, buffered, onClickProgressBar} = this.props;
 
     return (
       <div className="control-bar">
@@ -30,7 +30,9 @@ const ControlBar = React.createClass({
         </div>
         <ProgressBar currentTime={currentTime}
                      duration={duration}
-                     buffered={buffered}/>
+                     buffered={buffered}
+                     onClickProgressBar={onClickProgressBar}
+        />
         <TimeLabel currentTime={currentTime}
                    duration={duration}/>
       </div>
