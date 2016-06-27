@@ -5,22 +5,34 @@ import TimeLabel from './TimeLabel.jsx';
 import PlayIcon from '../assets/play-icon.svg';
 import PauseIcon from '../assets/pause-icon.svg';
 
-const ControlBar = React.createClass({
-  propTypes: {
+class ControlBar extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.bindMethods();
+  }
+
+  static propTypes = {
     currentTime: React.PropTypes.number.isRequired,
     duration: React.PropTypes.number.isRequired,
     onClickPlay: React.PropTypes.func.isRequired,
-    buffered: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
-  },
-  _handleClickPlay() {
+    bufferedArr: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)).isRequired
+  };
+
+  bindMethods() {
+    this.handleClickPlay = ::this.handleClickPlay;
+  }
+
+  handleClickPlay() {
     this.props.onClickPlay();
-  },
+  }
+
   render() {
-    let {currentTime, duration, buffered, onClickProgressBar} = this.props;
+    const {currentTime, duration, bufferedArr, onClickProgressBar} = this.props;
 
     return (
       <div className="control-bar">
-        <div className="play-btn" aria-role="button" onClick={this._handleClickPlay}
+        <div className="play-btn" aria-role="button" onClick={this.handleClickPlay}
              aria-label={this.props.paused ? 'play' : 'pause'}>
           {
             this.props.paused ?
@@ -30,7 +42,7 @@ const ControlBar = React.createClass({
         </div>
         <ProgressBar currentTime={currentTime}
                      duration={duration}
-                     buffered={buffered}
+                     bufferedArr={bufferedArr}
                      onClickProgressBar={onClickProgressBar}
         />
         <TimeLabel currentTime={currentTime}
@@ -38,6 +50,6 @@ const ControlBar = React.createClass({
       </div>
     )
   }
-});
+}
 
-module.exports = ControlBar;
+export default ControlBar;

@@ -12,7 +12,7 @@ class Player extends React.Component {
       currentTime: 0,
       loadedTime: 0,
       duration: 0,
-      buffered: [0, 0]
+      bufferedArr: []
     };
 
     this.bindMethods();
@@ -43,6 +43,7 @@ class Player extends React.Component {
     this.handleVideoDurationChange = ::this.handleVideoDurationChange;
     this.handleVideoTimeUpdate = ::this.handleVideoTimeUpdate;
     this.handleVideoProgress = ::this.handleVideoProgress;
+    this.handleVideoLoadedMetadata = ::this.handleVideoLoadedMetadata;
   }
 
   componentDidMount() {
@@ -94,13 +95,23 @@ class Player extends React.Component {
     });
   }
 
+  handleVideoLoadedMetadata() {
+  }
+
   handleVideoProgress() {
-    if (this._controller.readyState === 4) {
-      const buffered = this._controller.buffered;
-      this.setState({
-        buffered: [buffered.start(0), buffered.end(0)]
-      });
+    const buffered = this._controller.buffered;
+    let bufferedArr = [];
+
+    for (var i = 0; i < buffered.length; i++) {
+      bufferedArr.push([
+        buffered.start(i),
+        buffered.end(i)
+      ]);
     }
+
+    this.setState({
+      bufferedArr: bufferedArr
+    });
   }
   /* E: handle video event */
 
@@ -118,6 +129,7 @@ class Player extends React.Component {
                onPause={this.handleVideoPause}
                onProgress={this.handleVideoProgress}
                onDurationChange={this.handleVideoDurationChange}
+               onLoadedMetadata={this.handleVideoLoadedMetadata}
                onTimeUpdate={this.handleVideoTimeUpdate}
         >
           {this.props.children}
@@ -127,7 +139,7 @@ class Player extends React.Component {
                     onClickProgressBar={this.seek}
                     currentTime={this.state.currentTime}
                     duration={this.state.duration}
-                    buffered={this.state.buffered}/>
+                    bufferedArr={this.state.bufferedArr}/>
       </div>
     )
   }

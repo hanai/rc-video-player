@@ -11,17 +11,21 @@ class ProgressBar extends React.Component {
       mouseOffsetLeft: 0
     };
 
-    this.handleClickProgressBar = ::this.handleClickProgressBar;
-    this.handleMouseEnterProgressBar = ::this.handleMouseEnterProgressBar;
-    this.handleMouseLeaveProgressbar = ::this.handleMouseLeaveProgressbar;
-    this.handleMouseMoveProgressBar = ::this.handleMouseMoveProgressBar;
+    this.bindMethods();
   }
 
   static propTypes = {
     currentTime: React.PropTypes.number.isRequired,
     duration: React.PropTypes.number.isRequired,
-    buffered: React.PropTypes.arrayOf(React.PropTypes.number).isRequired
+    bufferedArr: React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)).isRequired
   };
+
+  bindMethods() {
+    this.handleClickProgressBar = ::this.handleClickProgressBar;
+    this.handleMouseEnterProgressBar = ::this.handleMouseEnterProgressBar;
+    this.handleMouseLeaveProgressbar = ::this.handleMouseLeaveProgressbar;
+    this.handleMouseMoveProgressBar = ::this.handleMouseMoveProgressBar;
+  }
 
   componentWillReceiveProps(nextProps) {
     const {currentTime, duration} = nextProps;

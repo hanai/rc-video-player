@@ -20416,7 +20416,7 @@
 	      currentTime: 0,
 	      loadedTime: 0,
 	      duration: 0,
-	      buffered: [0, 0]
+	      bufferedArr: []
 	    };
 	
 	    _this.bindMethods();
@@ -20436,6 +20436,7 @@
 	      this.handleVideoDurationChange = this.handleVideoDurationChange.bind(this);
 	      this.handleVideoTimeUpdate = this.handleVideoTimeUpdate.bind(this);
 	      this.handleVideoProgress = this.handleVideoProgress.bind(this);
+	      this.handleVideoLoadedMetadata = this.handleVideoLoadedMetadata.bind(this);
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -20498,14 +20499,21 @@
 	      });
 	    }
 	  }, {
+	    key: 'handleVideoLoadedMetadata',
+	    value: function handleVideoLoadedMetadata() {}
+	  }, {
 	    key: 'handleVideoProgress',
 	    value: function handleVideoProgress() {
-	      if (this._controller.readyState === 4) {
-	        var buffered = this._controller.buffered;
-	        this.setState({
-	          buffered: [buffered.start(0), buffered.end(0)]
-	        });
+	      var buffered = this._controller.buffered;
+	      var bufferedArr = [];
+	
+	      for (var i = 0; i < buffered.length; i++) {
+	        bufferedArr.push([buffered.start(i), buffered.end(i)]);
 	      }
+	
+	      this.setState({
+	        bufferedArr: bufferedArr
+	      });
 	    }
 	    /* E: handle video event */
 	
@@ -20528,6 +20536,7 @@
 	            onPause: this.handleVideoPause,
 	            onProgress: this.handleVideoProgress,
 	            onDurationChange: this.handleVideoDurationChange,
+	            onLoadedMetadata: this.handleVideoLoadedMetadata,
 	            onTimeUpdate: this.handleVideoTimeUpdate
 	          },
 	          this.props.children
@@ -20537,7 +20546,7 @@
 	          onClickProgressBar: this.seek,
 	          currentTime: this.state.currentTime,
 	          duration: this.state.duration,
-	          buffered: this.state.buffered })
+	          bufferedArr: this.state.bufferedArr })
 	      );
 	    }
 	  }]);
@@ -20913,6 +20922,12 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -20935,47 +20950,74 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ControlBar = _react2.default.createClass({
-	  displayName: 'ControlBar',
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  propTypes: {
-	    currentTime: _react2.default.PropTypes.number.isRequired,
-	    duration: _react2.default.PropTypes.number.isRequired,
-	    onClickPlay: _react2.default.PropTypes.func.isRequired,
-	    buffered: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number).isRequired
-	  },
-	  _handleClickPlay: function _handleClickPlay() {
-	    this.props.onClickPlay();
-	  },
-	  render: function render() {
-	    var _props = this.props;
-	    var currentTime = _props.currentTime;
-	    var duration = _props.duration;
-	    var buffered = _props.buffered;
-	    var onClickProgressBar = _props.onClickProgressBar;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'control-bar' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'play-btn', 'aria-role': 'button', onClick: this._handleClickPlay,
-	          'aria-label': this.props.paused ? 'play' : 'pause' },
-	        this.props.paused ? _react2.default.createElement(_playIcon2.default, null) : _react2.default.createElement(_pauseIcon2.default, null)
-	      ),
-	      _react2.default.createElement(_ProgressBar2.default, { currentTime: currentTime,
-	        duration: duration,
-	        buffered: buffered,
-	        onClickProgressBar: onClickProgressBar
-	      }),
-	      _react2.default.createElement(_TimeLabel2.default, { currentTime: currentTime,
-	        duration: duration })
-	    );
+	var ControlBar = function (_React$Component) {
+	  _inherits(ControlBar, _React$Component);
+	
+	  function ControlBar(props) {
+	    _classCallCheck(this, ControlBar);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ControlBar).call(this, props));
+	
+	    _this.bindMethods();
+	    return _this;
 	  }
-	});
 	
-	module.exports = ControlBar;
+	  _createClass(ControlBar, [{
+	    key: 'bindMethods',
+	    value: function bindMethods() {
+	      this.handleClickPlay = this.handleClickPlay.bind(this);
+	    }
+	  }, {
+	    key: 'handleClickPlay',
+	    value: function handleClickPlay() {
+	      this.props.onClickPlay();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var currentTime = _props.currentTime;
+	      var duration = _props.duration;
+	      var bufferedArr = _props.bufferedArr;
+	      var onClickProgressBar = _props.onClickProgressBar;
+	
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'control-bar' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'play-btn', 'aria-role': 'button', onClick: this.handleClickPlay,
+	            'aria-label': this.props.paused ? 'play' : 'pause' },
+	          this.props.paused ? _react2.default.createElement(_playIcon2.default, null) : _react2.default.createElement(_pauseIcon2.default, null)
+	        ),
+	        _react2.default.createElement(_ProgressBar2.default, { currentTime: currentTime,
+	          duration: duration,
+	          bufferedArr: bufferedArr,
+	          onClickProgressBar: onClickProgressBar
+	        }),
+	        _react2.default.createElement(_TimeLabel2.default, { currentTime: currentTime,
+	          duration: duration })
+	      );
+	    }
+	  }]);
+	
+	  return ControlBar;
+	}(_react2.default.Component);
+	
+	ControlBar.propTypes = {
+	  currentTime: _react2.default.PropTypes.number.isRequired,
+	  duration: _react2.default.PropTypes.number.isRequired,
+	  onClickPlay: _react2.default.PropTypes.func.isRequired,
+	  bufferedArr: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number)).isRequired
+	};
+	exports.default = ControlBar;
 
 /***/ },
 /* 174 */
@@ -21016,14 +21058,19 @@
 	      mouseOffsetLeft: 0
 	    };
 	
-	    _this.handleClickProgressBar = _this.handleClickProgressBar.bind(_this);
-	    _this.handleMouseEnterProgressBar = _this.handleMouseEnterProgressBar.bind(_this);
-	    _this.handleMouseLeaveProgressbar = _this.handleMouseLeaveProgressbar.bind(_this);
-	    _this.handleMouseMoveProgressBar = _this.handleMouseMoveProgressBar.bind(_this);
+	    _this.bindMethods();
 	    return _this;
 	  }
 	
 	  _createClass(ProgressBar, [{
+	    key: 'bindMethods',
+	    value: function bindMethods() {
+	      this.handleClickProgressBar = this.handleClickProgressBar.bind(this);
+	      this.handleMouseEnterProgressBar = this.handleMouseEnterProgressBar.bind(this);
+	      this.handleMouseLeaveProgressbar = this.handleMouseLeaveProgressbar.bind(this);
+	      this.handleMouseMoveProgressBar = this.handleMouseMoveProgressBar.bind(this);
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      var currentTime = nextProps.currentTime;
@@ -21117,7 +21164,7 @@
 	ProgressBar.propTypes = {
 	  currentTime: _react2.default.PropTypes.number.isRequired,
 	  duration: _react2.default.PropTypes.number.isRequired,
-	  buffered: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number).isRequired
+	  bufferedArr: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number)).isRequired
 	};
 	exports.default = ProgressBar;
 
@@ -21127,58 +21174,84 @@
 
 	'use strict';
 	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var TimeLabel = _react2.default.createClass({
-	  displayName: 'TimeLabel',
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	  propTypes: {
-	    currentTime: _react2.default.PropTypes.number.isRequired,
-	    duration: _react2.default.PropTypes.number.isRequired
-	  },
-	  _formatSeconds: function _formatSeconds(seconds) {
-	    var h = parseInt(seconds / 3600);
-	    var m = parseInt(seconds % 3600 / 60);
-	    var s = parseInt(seconds % 3600 % 60);
-	    var fH = h ? h + ':' : '';
-	    var fM = m ? m < 10 ? '0' + m + ':' : m + ':' : '00:';
-	    var fS = s ? s < 10 ? '0' + s : s : '00';
-	    return '' + fH + fM + fS;
-	  },
-	  render: function render() {
-	    var _props = this.props;
-	    var currentTime = _props.currentTime;
-	    var duration = _props.duration;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	    var currentTimeSeconds = parseInt(currentTime);
-	    var durationSeconds = parseInt(duration);
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	    var formattedCurrentTime = this._formatSeconds(currentTimeSeconds);
-	    var formattedDuration = this._formatSeconds(durationSeconds);
+	var TimeLabel = function (_React$Component) {
+	  _inherits(TimeLabel, _React$Component);
 	
-	    return _react2.default.createElement(
-	      'div',
-	      { className: 'time-label' },
-	      _react2.default.createElement(
-	        'span',
-	        { className: 'current' },
-	        formattedCurrentTime
-	      ),
-	      ' / ',
-	      _react2.default.createElement(
-	        'span',
-	        { className: 'duration' },
-	        formattedDuration
-	      )
-	    );
+	  function TimeLabel(props) {
+	    _classCallCheck(this, TimeLabel);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TimeLabel).call(this, props));
 	  }
-	});
 	
-	module.exports = TimeLabel;
+	  _createClass(TimeLabel, [{
+	    key: 'formatSeconds',
+	    value: function formatSeconds(seconds) {
+	      var h = parseInt(seconds / 3600);
+	      var m = parseInt(seconds % 3600 / 60);
+	      var s = parseInt(seconds % 3600 % 60);
+	      var fH = h ? h + ':' : '';
+	      var fM = m ? m < 10 ? '0' + m + ':' : m + ':' : '00:';
+	      var fS = s ? s < 10 ? '0' + s : s : '00';
+	      return '' + fH + fM + fS;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var currentTime = _props.currentTime;
+	      var duration = _props.duration;
+	
+	      var currentTimeString = this.formatSeconds(currentTime);
+	      var durationString = this.formatSeconds(duration);
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'time-label' },
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'current' },
+	          currentTimeString
+	        ),
+	        ' / ',
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'duration' },
+	          durationString
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return TimeLabel;
+	}(_react2.default.Component);
+	
+	TimeLabel.propTypes = {
+	  currentTime: _react2.default.PropTypes.number,
+	  duration: _react2.default.PropTypes.number
+	};
+	TimeLabel.defaultProps = {
+	  currentTime: 0,
+	  duration: 0
+	};
+	exports.default = TimeLabel;
 
 /***/ },
 /* 176 */
