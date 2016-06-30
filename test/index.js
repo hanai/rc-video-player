@@ -21101,10 +21101,8 @@
 	  }, {
 	    key: 'handleMouseLeaveProgressList',
 	    value: function handleMouseLeaveProgressList(event) {
-	      var totalLength = this.refs.progressList.clientWidth;
-	
 	      this.setState({
-	        mouseOffsetRight: totalLength
+	        mouseOffsetRight: 'auto'
 	      });
 	    }
 	  }, {
@@ -21157,9 +21155,7 @@
 	        { className: 'progress-bar-container' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'progress-bar',
-	            ref: 'progressBar'
-	          },
+	          { className: 'progress-bar' },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'progress-list', ref: 'progressList',

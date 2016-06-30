@@ -51,10 +51,8 @@ class ProgressBar extends React.Component {
   }
 
   handleMouseLeaveProgressList(event) {
-    const totalLength = this.refs.progressList.clientWidth;
-
     this.setState({
-      mouseOffsetRight: totalLength
+      mouseOffsetRight: 'auto'
     });
   }
 
@@ -90,9 +88,7 @@ class ProgressBar extends React.Component {
 
     return (
       <div className="progress-bar-container">
-        <div className="progress-bar"
-             ref="progressBar"
-        >
+        <div className="progress-bar">
           <div className="progress-list" ref="progressList"
                onClick={this.handleClickProgressList}
                onMouseMove={this.handleMouseMoveProgressList}
