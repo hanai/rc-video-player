@@ -20603,7 +20603,7 @@
 	
 	
 	// module
-	exports.push([module.id, "*, *:before, *:after {\n  box-sizing: border-box; }\n\n.player-box {\n  position: relative; }\n  .player-box .control-bar {\n    background: #1B1B1B;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    height: 28px;\n    flex-direction: row;\n    display: flex;\n    justify-content: space-between;\n    line-height: 28px; }\n    .player-box .control-bar .play-btn {\n      width: 50px;\n      text-align: center;\n      vertical-align: middle;\n      color: #757575;\n      cursor: pointer; }\n      .player-box .control-bar .play-btn:hover .play-icon, .player-box .control-bar .play-btn:hover .pause-icon {\n        fill: #fff; }\n      .player-box .control-bar .play-btn .play-icon, .player-box .control-bar .play-btn .pause-icon {\n        fill: #cccccc; }\n    .player-box .control-bar .progress-bar-container {\n      flex: 1;\n      padding: 0 10px;\n      display: flex;\n      align-items: center; }\n    .player-box .control-bar .progress-bar {\n      position: relative;\n      width: 100%; }\n      .player-box .control-bar .progress-bar:hover .pointer {\n        display: block; }\n      .player-box .control-bar .progress-bar .pointer {\n        content: '';\n        width: 10px;\n        height: 10px;\n        overflow: hidden;\n        background: #D71816;\n        position: absolute;\n        top: 50%;\n        margin-top: -5px;\n        margin-left: -5px;\n        z-index: 5;\n        border-radius: 50%;\n        left: 0;\n        display: none;\n        cursor: pointer; }\n      .player-box .control-bar .progress-bar .progress-list {\n        flex: 1;\n        height: 3px;\n        background: #666;\n        position: relative;\n        cursor: pointer;\n        transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); }\n        .player-box .control-bar .progress-bar .progress-list:hover {\n          background: #999;\n          transform: scaleY(1.5); }\n      .player-box .control-bar .progress-bar .play {\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 0;\n        background: #D71816; }\n      .player-box .control-bar .progress-bar .buffer {\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 0;\n        z-index: 4; }\n      .player-box .control-bar .progress-bar .hover {\n        background: rgba(0, 0, 0, 0.5);\n        opacity: 0;\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 0; }\n    .player-box .control-bar .time-label {\n      font-size: 12px;\n      color: #ddd;\n      padding: 0 8px;\n      white-space: nowrap; }\n      .player-box .control-bar .time-label .current {\n        color: #fff; }\n", ""]);
+	exports.push([module.id, "*, *:before, *:after {\n  box-sizing: border-box; }\n\n.player-box {\n  position: relative; }\n  .player-box .control-bar {\n    background: #1B1B1B;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    height: 28px;\n    flex-direction: row;\n    display: flex;\n    justify-content: space-between;\n    line-height: 28px; }\n    .player-box .control-bar .play-btn {\n      width: 50px;\n      text-align: center;\n      vertical-align: middle;\n      color: #757575;\n      cursor: pointer; }\n      .player-box .control-bar .play-btn:hover .play-icon, .player-box .control-bar .play-btn:hover .pause-icon {\n        fill: #fff; }\n      .player-box .control-bar .play-btn .play-icon, .player-box .control-bar .play-btn .pause-icon {\n        fill: #cccccc; }\n    .player-box .control-bar .progress-bar-container {\n      flex: 1;\n      padding: 0 10px;\n      display: flex;\n      align-items: center; }\n    .player-box .control-bar .progress-bar {\n      position: relative;\n      width: 100%; }\n      .player-box .control-bar .progress-bar:hover .pointer {\n        display: block; }\n      .player-box .control-bar .progress-bar .pointer {\n        content: '';\n        width: 10px;\n        height: 10px;\n        overflow: hidden;\n        background: #D71816;\n        position: absolute;\n        top: 50%;\n        margin-top: -5px;\n        margin-left: -5px;\n        z-index: 5;\n        border-radius: 50%;\n        left: 0;\n        display: none;\n        cursor: pointer; }\n      .player-box .control-bar .progress-bar .progress-list {\n        flex: 1;\n        height: 3px;\n        background: rgba(255, 255, 255, 0.2);\n        position: relative;\n        cursor: pointer;\n        transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); }\n        .player-box .control-bar .progress-bar .progress-list:hover {\n          transform: scaleY(1.5); }\n          .player-box .control-bar .progress-bar .progress-list:hover .mask-line {\n            left: auto; }\n      .player-box .control-bar .progress-bar .buffer-line {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        background: green; }\n      .player-box .control-bar .progress-bar .play-line {\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 0;\n        background: #D71816; }\n      .player-box .control-bar .progress-bar .mask-line {\n        position: absolute;\n        left: 0;\n        right: 0;\n        top: 0;\n        bottom: 0;\n        background: rgba(0, 0, 0, 0.2); }\n    .player-box .control-bar .time-label {\n      font-size: 12px;\n      color: #ddd;\n      padding: 0 8px;\n      white-space: nowrap; }\n      .player-box .control-bar .time-label .current {\n        color: #fff; }\n", ""]);
 	
 	// exports
 
@@ -21052,10 +21052,9 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ProgressBar).call(this, props));
 	
 	    _this.state = {
-	      displayHoverBar: false,
 	      pointerLeft: 0,
 	      playPercent: 0,
-	      mouseOffsetLeft: 0
+	      mouseOffsetRight: 0
 	    };
 	
 	    _this.bindMethods();
@@ -21066,9 +21065,9 @@
 	    key: 'bindMethods',
 	    value: function bindMethods() {
 	      this.handleClickProgressBar = this.handleClickProgressBar.bind(this);
-	      this.handleMouseEnterProgressBar = this.handleMouseEnterProgressBar.bind(this);
-	      this.handleMouseLeaveProgressbar = this.handleMouseLeaveProgressbar.bind(this);
-	      this.handleMouseMoveProgressBar = this.handleMouseMoveProgressBar.bind(this);
+	      this.handleMouseEnterProgressList = this.handleMouseEnterProgressList.bind(this);
+	      this.handleMouseLeaveProgressList = this.handleMouseLeaveProgressList.bind(this);
+	      this.handleMouseMoveProgressList = this.handleMouseMoveProgressList.bind(this);
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -21096,28 +21095,47 @@
 	      this.props.onClickProgressBar(time);
 	    }
 	  }, {
-	    key: 'handleMouseEnterProgressBar',
-	    value: function handleMouseEnterProgressBar() {
+	    key: 'handleMouseEnterProgressList',
+	    value: function handleMouseEnterProgressList() {}
+	  }, {
+	    key: 'handleMouseLeaveProgressList',
+	    value: function handleMouseLeaveProgressList(event) {
+	      var totalLength = this.refs.progressList.clientWidth;
+	
 	      this.setState({
-	        displayHoverBar: true
+	        mouseOffsetRight: totalLength
 	      });
 	    }
 	  }, {
-	    key: 'handleMouseLeaveProgressbar',
-	    value: function handleMouseLeaveProgressbar(event) {
-	      var posX = event.pageX;
-	      var posY = event.pageY;
+	    key: 'handleMouseMoveProgressList',
+	    value: function handleMouseMoveProgressList(event) {
+	      var progressList = this.refs.progressList;
+	      var offsetX = event.clientX - progressList.getBoundingClientRect().left;
+	      var totalLength = progressList.clientWidth;
+	
 	      this.setState({
-	        displayHoverBar: false
+	        mouseOffsetRight: totalLength - offsetX
 	      });
 	    }
 	  }, {
-	    key: 'handleMouseMoveProgressBar',
-	    value: function handleMouseMoveProgressBar(event) {
-	      var offsetX = event.nativeEvent.offsetX;
-	      this.setState({
-	        mouseOffsetLeft: offsetX
-	      });
+	    key: 'renderBufferLine',
+	    value: function renderBufferLine(_ref) {
+	      var bufferedArr = _ref.bufferedArr;
+	      var currentTime = _ref.currentTime;
+	      var duration = _ref.duration;
+	
+	      var bufferLine = null;
+	      if (bufferedArr.length > 0) {
+	        bufferedArr.forEach(function (bufferedRange) {
+	          if (bufferedRange[0] <= currentTime && currentTime <= bufferedRange[1]) {
+	            bufferLine = _react2.default.createElement('div', { className: 'buffer-line', style: {
+	                left: bufferedRange[0] / duration + '%',
+	                right: (duration - bufferedRange[1]) / duration * 100 + '%'
+	              } });
+	          }
+	        });
+	      }
+	      return bufferLine;
 	    }
 	  }, {
 	    key: 'render',
@@ -21125,11 +21143,11 @@
 	      var _props = this.props;
 	      var currentTime = _props.currentTime;
 	      var duration = _props.duration;
+	      var bufferedArr = _props.bufferedArr;
 	      var _state = this.state;
 	      var playPercent = _state.playPercent;
 	      var pointLeft = _state.pointLeft;
-	      var displayHoverBar = _state.displayHoverBar;
-	      var mouseOffsetLeft = _state.mouseOffsetLeft;
+	      var mouseOffsetRight = _state.mouseOffsetRight;
 	
 	
 	      return _react2.default.createElement(
@@ -21144,13 +21162,13 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'progress-list', ref: 'progressList',
-	              onMouseMove: this.handleMouseMoveProgressBar,
-	              onMouseEnter: this.handleMouseEnterProgressBar,
-	              onMouseLeave: this.handleMouseLeaveProgressbar },
-	            _react2.default.createElement('div', { className: 'play', style: { width: playPercent } }),
-	            _react2.default.createElement('div', { className: 'buffer' }),
-	            _react2.default.createElement('div', { className: 'hover',
-	              style: { opacity: displayHoverBar ? 1 : 0, width: mouseOffsetLeft } })
+	              onMouseMove: this.handleMouseMoveProgressList,
+	              onMouseEnter: this.handleMouseEnterProgressList,
+	              onMouseLeave: this.handleMouseLeaveProgressList },
+	            this.renderBufferLine({ bufferedArr: bufferedArr, currentTime: currentTime, duration: duration }),
+	            _react2.default.createElement('div', { className: 'play-line', style: { width: playPercent } }),
+	            _react2.default.createElement('div', { className: 'mask-line',
+	              style: { width: mouseOffsetRight } })
 	          ),
 	          _react2.default.createElement('div', { className: 'pointer', style: { left: pointLeft } })
 	        )

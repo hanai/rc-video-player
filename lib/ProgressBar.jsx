@@ -5,10 +5,9 @@ class ProgressBar extends React.Component {
     super(props);
 
     this.state = {
-      displayHoverBar: false,
       pointerLeft: 0,
       playPercent: 0,
-      mouseOffsetLeft: 0
+      mouseOffsetRight: 0
     };
 
     this.bindMethods();
@@ -22,9 +21,9 @@ class ProgressBar extends React.Component {
 
   bindMethods() {
     this.handleClickProgressBar = ::this.handleClickProgressBar;
-    this.handleMouseEnterProgressBar = ::this.handleMouseEnterProgressBar;
-    this.handleMouseLeaveProgressbar = ::this.handleMouseLeaveProgressbar;
-    this.handleMouseMoveProgressBar = ::this.handleMouseMoveProgressBar;
+    this.handleMouseEnterProgressList = ::this.handleMouseEnterProgressList;
+    this.handleMouseLeaveProgressList = ::this.handleMouseLeaveProgressList;
+    this.handleMouseMoveProgressList = ::this.handleMouseMoveProgressList;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,30 +46,45 @@ class ProgressBar extends React.Component {
     this.props.onClickProgressBar(time);
   }
 
-  handleMouseEnterProgressBar() {
+  handleMouseEnterProgressList() {
+  }
+
+  handleMouseLeaveProgressList(event) {
+    const totalLength = this.refs.progressList.clientWidth;
+
     this.setState({
-      displayHoverBar: true
+      mouseOffsetRight: totalLength
     });
   }
 
-  handleMouseLeaveProgressbar(event) {
-    let posX = event.pageX;
-    let posY = event.pageY;
+  handleMouseMoveProgressList(event) {
+    const progressList = this.refs.progressList;
+    const offsetX = event.clientX - progressList.getBoundingClientRect().left;
+    const totalLength = progressList.clientWidth;
+
     this.setState({
-      displayHoverBar: false
+      mouseOffsetRight: totalLength - offsetX
     });
   }
 
-  handleMouseMoveProgressBar(event) {
-    const offsetX = event.nativeEvent.offsetX;
-    this.setState({
-      mouseOffsetLeft: offsetX
-    });
+  renderBufferLine({bufferedArr, currentTime, duration}) {
+    let bufferLine = null;
+    if (bufferedArr.length > 0) {
+      bufferedArr.forEach(bufferedRange => {
+        if ((bufferedRange[0] <= currentTime) && (currentTime <= bufferedRange[1])) {
+          bufferLine = <div className="buffer-line" style={{
+            left: `${bufferedRange[0]/duration}%`,
+            right: `${(duration-bufferedRange[1])/duration*100}%`
+          }}></div>
+        }
+      });
+    }
+    return bufferLine;
   }
 
   render() {
-    const {currentTime, duration} = this.props;
-    const {playPercent, pointLeft, displayHoverBar, mouseOffsetLeft} = this.state;
+    const {currentTime, duration, bufferedArr} = this.props;
+    const {playPercent, pointLeft, mouseOffsetRight} = this.state;
 
     return (
       <div className="progress-bar-container">
@@ -79,13 +93,15 @@ class ProgressBar extends React.Component {
              onClick={this.handleClickProgressBar}
         >
           <div className="progress-list" ref="progressList"
-               onMouseMove={this.handleMouseMoveProgressBar}
-               onMouseEnter={this.handleMouseEnterProgressBar}
-               onMouseLeave={this.handleMouseLeaveProgressbar}>
-            <div className="play" style={{width: playPercent}}></div>
-            <div className="buffer"></div>
-            <div className="hover"
-                 style={{opacity: displayHoverBar ? 1 : 0, width: mouseOffsetLeft}}></div>
+               onMouseMove={this.handleMouseMoveProgressList}
+               onMouseEnter={this.handleMouseEnterProgressList}
+               onMouseLeave={this.handleMouseLeaveProgressList}>
+            {
+              this.renderBufferLine({bufferedArr, currentTime, duration})
+            }
+            <div className="play-line" style={{width: playPercent}}></div>
+            <div className="mask-line"
+                 style={{width: mouseOffsetRight}}></div>
           </div>
           <div className="pointer" style={{left: pointLeft}}></div>
         </div>
