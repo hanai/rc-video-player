@@ -21064,7 +21064,7 @@
 	  _createClass(ProgressBar, [{
 	    key: 'bindMethods',
 	    value: function bindMethods() {
-	      this.handleClickProgressBar = this.handleClickProgressBar.bind(this);
+	      this.handleClickProgressList = this.handleClickProgressList.bind(this);
 	      this.handleMouseEnterProgressList = this.handleMouseEnterProgressList.bind(this);
 	      this.handleMouseLeaveProgressList = this.handleMouseLeaveProgressList.bind(this);
 	      this.handleMouseMoveProgressList = this.handleMouseMoveProgressList.bind(this);
@@ -21082,15 +21082,16 @@
 	      });
 	    }
 	  }, {
-	    key: 'handleClickProgressBar',
-	    value: function handleClickProgressBar(event) {
+	    key: 'handleClickProgressList',
+	    value: function handleClickProgressList(event) {
 	      var duration = this.props.duration;
 	
+	      var progressList = this.refs.progressList;
+	      var progressListRect = progressList.getBoundingClientRect();
+	      var offsetX = event.clientX - progressListRect.left;
+	      var progressListWidth = progressListRect.width;
 	
-	      var offsetX = event.nativeEvent.offsetX;
-	      var progressBar = event.currentTarget;
-	
-	      var time = offsetX / progressBar.clientWidth * duration;
+	      var time = offsetX / progressListWidth * duration;
 	
 	      this.props.onClickProgressBar(time);
 	    }
@@ -21110,11 +21111,12 @@
 	    key: 'handleMouseMoveProgressList',
 	    value: function handleMouseMoveProgressList(event) {
 	      var progressList = this.refs.progressList;
-	      var offsetX = event.clientX - progressList.getBoundingClientRect().left;
-	      var totalLength = progressList.clientWidth;
+	      var progressListRect = progressList.getBoundingClientRect();
+	      var offsetX = event.clientX - progressListRect.left;
+	      var progressListWidth = progressListRect.width;
 	
 	      this.setState({
-	        mouseOffsetRight: totalLength - offsetX
+	        mouseOffsetRight: progressListWidth - offsetX
 	      });
 	    }
 	  }, {
@@ -21156,12 +21158,12 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'progress-bar',
-	            ref: 'progressBar',
-	            onClick: this.handleClickProgressBar
+	            ref: 'progressBar'
 	          },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'progress-list', ref: 'progressList',
+	              onClick: this.handleClickProgressList,
 	              onMouseMove: this.handleMouseMoveProgressList,
 	              onMouseEnter: this.handleMouseEnterProgressList,
 	              onMouseLeave: this.handleMouseLeaveProgressList },

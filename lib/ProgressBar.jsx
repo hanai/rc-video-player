@@ -20,7 +20,7 @@ class ProgressBar extends React.Component {
   };
 
   bindMethods() {
-    this.handleClickProgressBar = ::this.handleClickProgressBar;
+    this.handleClickProgressList = ::this.handleClickProgressList;
     this.handleMouseEnterProgressList = ::this.handleMouseEnterProgressList;
     this.handleMouseLeaveProgressList = ::this.handleMouseLeaveProgressList;
     this.handleMouseMoveProgressList = ::this.handleMouseMoveProgressList;
@@ -35,13 +35,14 @@ class ProgressBar extends React.Component {
     });
   }
 
-  handleClickProgressBar(event) {
+  handleClickProgressList(event) {
     const {duration} = this.props;
+    const progressList = this.refs.progressList;
+    const progressListRect = progressList.getBoundingClientRect();
+    const offsetX = event.clientX - progressListRect.left;
+    const progressListWidth = progressListRect.width;
 
-    const offsetX = event.nativeEvent.offsetX;
-    const progressBar = event.currentTarget;
-
-    let time = (offsetX/progressBar.clientWidth) * duration;
+    let time = (offsetX/progressListWidth) * duration;
 
     this.props.onClickProgressBar(time);
   }
@@ -59,11 +60,12 @@ class ProgressBar extends React.Component {
 
   handleMouseMoveProgressList(event) {
     const progressList = this.refs.progressList;
-    const offsetX = event.clientX - progressList.getBoundingClientRect().left;
-    const totalLength = progressList.clientWidth;
+    const progressListRect = progressList.getBoundingClientRect();
+    const offsetX = event.clientX - progressListRect.left;
+    const progressListWidth = progressListRect.width;
 
     this.setState({
-      mouseOffsetRight: totalLength - offsetX
+      mouseOffsetRight: progressListWidth - offsetX
     });
   }
 
@@ -90,9 +92,9 @@ class ProgressBar extends React.Component {
       <div className="progress-bar-container">
         <div className="progress-bar"
              ref="progressBar"
-             onClick={this.handleClickProgressBar}
         >
           <div className="progress-list" ref="progressList"
+               onClick={this.handleClickProgressList}
                onMouseMove={this.handleMouseMoveProgressList}
                onMouseEnter={this.handleMouseEnterProgressList}
                onMouseLeave={this.handleMouseLeaveProgressList}>
