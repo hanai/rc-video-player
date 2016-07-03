@@ -3,6 +3,8 @@ import './style.scss';
 
 import ControlBar from './lib/ControlBar';
 
+const ControlBarHeight = 28;
+
 class Player extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +29,7 @@ class Player extends React.Component {
 
   static defaultProps = {
     autoplay: false,
-    poster: '',
+    poster: null,
     width: 854,
     height: 480
   };
@@ -116,13 +118,18 @@ class Player extends React.Component {
   /* E: handle video event */
 
   render() {
+    const props = this.props;
+
     return (
-      <div className="player-box" style={{width: this.props.width, height: this.props.height}}>
+      <div className="player-box" style={{
+        height: props.height + ControlBarHeight,
+        width: props.width
+      }}>
         <video ref="player"
-               width={this.props.width}
-               height={this.props.height}
-               autoPlay={this.props.autoplay}
-               poster={this.props.poster ? this.props.poster : null}
+               width={props.width}
+               height={props.height}
+               autoPlay={props.autoplay}
+               poster={props.poster}
                controls={false}
                onClick={this.togglePlay}
                onPlay={this.handleVideoPlay}
@@ -132,7 +139,7 @@ class Player extends React.Component {
                onLoadedMetadata={this.handleVideoLoadedMetadata}
                onTimeUpdate={this.handleVideoTimeUpdate}
         >
-          {this.props.children}
+          {props.children}
         </video>
         <ControlBar paused={this.state.paused}
                     onClickPlay={this.togglePlay}

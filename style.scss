@@ -1,21 +1,19 @@
-*, *:before, *:after {
-  box-sizing: border-box;
-}
+$control-bar-height: 28px;
 
 .player-box {
   position: relative;
 
   .control-bar {
-    background: #1B1B1B;
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 28px;
-    flex-direction: row;
+    background: #1B1B1B;
+    height: $control-bar-height;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    line-height: 28px;
+    line-height: $control-bar-height;
 
     .play-btn {
       width: 50px;
@@ -62,7 +60,6 @@
         top: 50%;
         margin-top: -5px;
         margin-left: -5px;
-        z-index: 5;
         border-radius: 50%;
         left: 0;
         display: none;
@@ -90,7 +87,7 @@
         position: absolute;
         top: 0;
         bottom: 0;
-        background: green;
+        background: #666;
       }
 
       .play-line {
@@ -99,7 +96,7 @@
         top: 0;
         bottom: 0;
         width: 0;
-        background: #D71816;
+        background: #F91A12;
       }
 
       .mask-line {

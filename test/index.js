@@ -65,7 +65,7 @@
 	  render: function render() {
 	    return _react2.default.createElement(
 	      _2.default,
-	      { poster: './assets/poster.png' },
+	      { poster: './assets/poster.png', autoplay: true, width: 400, height: 200 },
 	      _react2.default.createElement('source', { id: 'mp4', src: './assets/trailer.mp4', type: 'video/mp4' }),
 	      _react2.default.createElement('source', { id: 'webm', src: './assets/trailer.webm', type: 'video/webm' }),
 	      _react2.default.createElement('source', { id: 'ogv', src: './assets/trailer.ogv', type: 'video/ogg' }),
@@ -20403,6 +20403,8 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var ControlBarHeight = 28;
+	
 	var Player = function (_React$Component) {
 	  _inherits(Player, _React$Component);
 	
@@ -20520,16 +20522,21 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var props = this.props;
+	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'player-box', style: { width: this.props.width, height: this.props.height } },
+	        { className: 'player-box', style: {
+	            height: props.height + ControlBarHeight,
+	            width: props.width
+	          } },
 	        _react2.default.createElement(
 	          'video',
 	          { ref: 'player',
-	            width: this.props.width,
-	            height: this.props.height,
-	            autoPlay: this.props.autoplay,
-	            poster: this.props.poster ? this.props.poster : null,
+	            width: props.width,
+	            height: props.height,
+	            autoPlay: props.autoplay,
+	            poster: props.poster,
 	            controls: false,
 	            onClick: this.togglePlay,
 	            onPlay: this.handleVideoPlay,
@@ -20539,7 +20546,7 @@
 	            onLoadedMetadata: this.handleVideoLoadedMetadata,
 	            onTimeUpdate: this.handleVideoTimeUpdate
 	          },
-	          this.props.children
+	          props.children
 	        ),
 	        _react2.default.createElement(_ControlBar2.default, { paused: this.state.paused,
 	          onClickPlay: this.togglePlay,
@@ -20562,7 +20569,7 @@
 	};
 	Player.defaultProps = {
 	  autoplay: false,
-	  poster: '',
+	  poster: null,
 	  width: 854,
 	  height: 480
 	};
@@ -20603,7 +20610,7 @@
 	
 	
 	// module
-	exports.push([module.id, "*, *:before, *:after {\n  box-sizing: border-box; }\n\n.player-box {\n  position: relative; }\n  .player-box .control-bar {\n    background: #1B1B1B;\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    height: 28px;\n    flex-direction: row;\n    display: flex;\n    justify-content: space-between;\n    line-height: 28px; }\n    .player-box .control-bar .play-btn {\n      width: 50px;\n      text-align: center;\n      vertical-align: middle;\n      color: #757575;\n      cursor: pointer; }\n      .player-box .control-bar .play-btn:hover .play-icon, .player-box .control-bar .play-btn:hover .pause-icon {\n        fill: #fff; }\n      .player-box .control-bar .play-btn .play-icon, .player-box .control-bar .play-btn .pause-icon {\n        fill: #cccccc; }\n    .player-box .control-bar .progress-bar-container {\n      flex: 1;\n      padding: 0 10px;\n      display: flex;\n      align-items: center; }\n    .player-box .control-bar .progress-bar {\n      position: relative;\n      width: 100%; }\n      .player-box .control-bar .progress-bar:hover .pointer {\n        display: block; }\n      .player-box .control-bar .progress-bar .pointer {\n        content: '';\n        width: 10px;\n        height: 10px;\n        overflow: hidden;\n        background: #D71816;\n        position: absolute;\n        top: 50%;\n        margin-top: -5px;\n        margin-left: -5px;\n        z-index: 5;\n        border-radius: 50%;\n        left: 0;\n        display: none;\n        cursor: pointer; }\n      .player-box .control-bar .progress-bar .progress-list {\n        flex: 1;\n        height: 3px;\n        background: rgba(255, 255, 255, 0.2);\n        position: relative;\n        cursor: pointer;\n        transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); }\n        .player-box .control-bar .progress-bar .progress-list:hover {\n          transform: scaleY(1.5); }\n          .player-box .control-bar .progress-bar .progress-list:hover .mask-line {\n            left: auto; }\n      .player-box .control-bar .progress-bar .buffer-line {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        background: green; }\n      .player-box .control-bar .progress-bar .play-line {\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 0;\n        background: #D71816; }\n      .player-box .control-bar .progress-bar .mask-line {\n        position: absolute;\n        left: 0;\n        right: 0;\n        top: 0;\n        bottom: 0;\n        background: rgba(0, 0, 0, 0.2); }\n    .player-box .control-bar .time-label {\n      font-size: 12px;\n      color: #ddd;\n      padding: 0 8px;\n      white-space: nowrap; }\n      .player-box .control-bar .time-label .current {\n        color: #fff; }\n", ""]);
+	exports.push([module.id, ".player-box {\n  position: relative; }\n  .player-box .control-bar {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    right: 0;\n    background: #1B1B1B;\n    height: 28px;\n    display: flex;\n    flex-direction: row;\n    justify-content: space-between;\n    line-height: 28px; }\n    .player-box .control-bar .play-btn {\n      width: 50px;\n      text-align: center;\n      vertical-align: middle;\n      color: #757575;\n      cursor: pointer; }\n      .player-box .control-bar .play-btn:hover .play-icon, .player-box .control-bar .play-btn:hover .pause-icon {\n        fill: #fff; }\n      .player-box .control-bar .play-btn .play-icon, .player-box .control-bar .play-btn .pause-icon {\n        fill: #cccccc; }\n    .player-box .control-bar .progress-bar-container {\n      flex: 1;\n      padding: 0 10px;\n      display: flex;\n      align-items: center; }\n    .player-box .control-bar .progress-bar {\n      position: relative;\n      width: 100%; }\n      .player-box .control-bar .progress-bar:hover .pointer {\n        display: block; }\n      .player-box .control-bar .progress-bar .pointer {\n        content: '';\n        width: 10px;\n        height: 10px;\n        overflow: hidden;\n        background: #D71816;\n        position: absolute;\n        top: 50%;\n        margin-top: -5px;\n        margin-left: -5px;\n        border-radius: 50%;\n        left: 0;\n        display: none;\n        cursor: pointer; }\n      .player-box .control-bar .progress-bar .progress-list {\n        flex: 1;\n        height: 3px;\n        background: rgba(255, 255, 255, 0.2);\n        position: relative;\n        cursor: pointer;\n        transition: transform 0.1s cubic-bezier(0, 0, 0.2, 1); }\n        .player-box .control-bar .progress-bar .progress-list:hover {\n          transform: scaleY(1.5); }\n          .player-box .control-bar .progress-bar .progress-list:hover .mask-line {\n            left: auto; }\n      .player-box .control-bar .progress-bar .buffer-line {\n        position: absolute;\n        top: 0;\n        bottom: 0;\n        background: #666; }\n      .player-box .control-bar .progress-bar .play-line {\n        position: absolute;\n        left: 0;\n        top: 0;\n        bottom: 0;\n        width: 0;\n        background: #F91A12; }\n      .player-box .control-bar .progress-bar .mask-line {\n        position: absolute;\n        left: 0;\n        right: 0;\n        top: 0;\n        bottom: 0;\n        background: rgba(0, 0, 0, 0.2); }\n    .player-box .control-bar .time-label {\n      font-size: 12px;\n      color: #ddd;\n      padding: 0 8px;\n      white-space: nowrap; }\n      .player-box .control-bar .time-label .current {\n        color: #fff; }\n", ""]);
 	
 	// exports
 
