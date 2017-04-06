@@ -5,7 +5,7 @@ import Player from '../';
 var App = React.createClass({
   render() {
     return (
-      <Player poster="./assets/poster.png" autoplay width={400} height={200}>
+      <Player poster="./assets/poster.png" autoplay width={800} height={450}>
         <source id="mp4" src="./assets/trailer.mp4" type="video/mp4"/>
         <source id="webm" src="./assets/trailer.webm" type="video/webm"/>
         <source id="ogv" src="./assets/trailer.ogv" type="video/ogg"/>

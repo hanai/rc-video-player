@@ -2,8 +2,6 @@ import React from 'react';
 
 import ProgressBar from './ProgressBar';
 import TimeLabel from './TimeLabel.jsx';
-import PlayIcon from '../assets/play-icon.svg';
-import PauseIcon from '../assets/pause-icon.svg';
 
 class ControlBar extends React.Component {
   constructor(props) {
@@ -32,23 +30,23 @@ class ControlBar extends React.Component {
 
     return (
       <div className="control-bar">
-        <div className="play-btn" aria-role="button" onClick={this.handleClickPlay}
-             aria-label={this.props.paused ? 'play' : 'pause'}>
+        <div className="play-btn" aria-roledescription="button" onClick={this.handleClickPlay}
+            aria-label={this.props.paused ? 'play' : 'pause'}>
           {
             this.props.paused ?
-              <PlayIcon /> :
-              <PauseIcon />
+              <svg className="ic-play"><use xlinkHref="#ic-play"></use></svg> :
+              <svg className="ic-pause"><use xlinkHref="#ic-pause"></use></svg>
           }
         </div>
         <ProgressBar currentTime={currentTime}
-                     duration={duration}
-                     bufferedArr={bufferedArr}
-                     onClickProgressBar={onClickProgressBar}
+                    duration={duration}
+                    bufferedArr={bufferedArr}
+                    onClickProgressBar={onClickProgressBar}
         />
         <TimeLabel currentTime={currentTime}
-                   duration={duration}/>
+                  duration={duration}/>
       </div>
-    )
+    );
   }
 }
 
